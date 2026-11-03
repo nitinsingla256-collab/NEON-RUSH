@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#080b11">
+  <title>NEON RUSH — Night Drive</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <canvas id="gameCanvas" aria-label="Neon Rush racing game"></canvas>
+    <div class="vignette"></div>
+    <header class="topbar">
+      <a class="wordmark" href="#menu" aria-label="Neon Rush home"><span class="mark">N</span><span>NEON<span class="wordmark-light">RUSH</span></span></a>
+      <div class="topbar-right"><span class="currency"><i class="coin-icon"></i><b id="coinCount">0</b></span><button class="icon-button sound-button" id="soundToggle" aria-label="Toggle sound" title="Toggle sound"><span id="soundIcon">♪</span></button></div>
+    </header>
+
+    <section class="screen active" id="menuScreen">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> MIDNIGHT IS YOURS</p>
+        <h1>NEON<br><span>RUSH</span></h1>
+        <p class="hero-sub">Own the night. Chase the light.</p>
+        <div class="hero-actions"><button class="button button-primary" id="playButton">START YOUR RUN <span>→</span></button><button class="button button-quiet" id="garageButton">THE GARAGE</button><button class="button button-quiet settings-menu-button" id="settingsButton">SETTINGS</button></div>
+        <div class="hero-meta"><span><small>PERSONAL BEST</small><b id="menuBest">000000</b></span><span class="meta-divider"></span><label class="mode-select">RACE MODE <select id="menuDifficulty" aria-label="Race difficulty"><option value="easy">Easy</option><option value="normal" selected>Normal</option><option value="hard">Hard</option></select></label></div>
+      </div>
+      <button class="menu-link scores-link" id="scoresButton"><span class="link-icon">↗</span> RECORDS</button>
+      <div class="bottom-note"><span class="pulse-dot"></span> HIGHWAY 09 <span class="note-separator">/</span> 02:14 AM</div>
+      <div class="control-hint"><kbd>←</kbd><kbd>→</kbd> OR <kbd>A</kbd><kbd>D</kbd> TO DRIVE</div>
+    </section>
+
+    <section class="screen" id="garageScreen">
+      <div class="panel-shell garage-shell">
+        <div class="panel-heading"><div><p class="eyebrow">YOUR NIGHT. YOUR MACHINE.</p><h2>THE <span>GARAGE</span></h2></div><button class="icon-button close-button" data-back="menuScreen" aria-label="Back to menu">×</button></div>
+        <div class="garage-layout"><div class="car-stage"><div class="stage-light"></div><div class="large-car-wrap" id="largeCarPreview"></div><div class="car-stage-caption"><span>SELECTED VEHICLE</span><b id="previewName">VANTA GT</b></div></div><div class="car-details"><div class="car-index" id="carIndex">01 / 04</div><h3 id="carName">VANTA GT</h3><p id="carDescription">A midnight-built all-rounder. Fast off the line, steady through the turns.</p><div class="stat-list"><div class="stat-row"><span>TOP SPEED</span><div class="stat-track"><i id="speedStat"></i></div><b id="speedValue">72</b></div><div class="stat-row"><span>HANDLING</span><div class="stat-track"><i id="handlingStat"></i></div><b id="handlingValue">84</b></div></div><div class="garage-actions"><button class="button button-primary" id="selectCarButton">SELECT CAR</button><button class="button button-quiet car-arrow" id="prevCar" aria-label="Previous car">←</button><button class="button button-quiet car-arrow" id="nextCar" aria-label="Next car">→</button></div><p class="garage-footnote" id="garageNotice">Selected cars are ready for your next run.</p></div></div>
+        <div class="car-dots" id="carDots"></div>
+      </div>
+    </section>
+
+    <section class="screen" id="settingsScreen">
+      <div class="dialog-card"><button class="icon-button close-button dialog-close" data-back="menuScreen" aria-label="Back to menu">×</button><p class="eyebrow">MAKE IT YOURS</p><h2>SETTINGS</h2><div class="setting-row"><div><b>Sound effects</b><small>Engine, coins and impact sounds</small></div><button class="toggle on" id="effectsToggle" aria-pressed="true"><span></span></button></div><div class="setting-row"><div><b>Background music</b><small>A low-key night-drive pulse</small></div><button class="toggle on" id="musicToggle" aria-pressed="true"><span></span></button></div><div class="setting-row difficulty-setting"><div><b>Race difficulty</b><small>Changes traffic pace and score bonus</small></div><select id="settingsDifficulty"><option value="easy">Easy</option><option value="normal">Normal</option><option value="hard">Hard</option></select></div><p class="settings-note">Your best runs, coins and car unlocks are saved on this device.</p></div>
+    </section>
+
+    <section class="screen" id="scoresScreen">
+      <div class="dialog-card scores-card"><button class="icon-button close-button dialog-close" data-back="menuScreen" aria-label="Back to menu">×</button><p class="eyebrow">THE NIGHT NEVER FORGETS</p><h2>YOUR <span>RECORDS</span></h2><div class="record-total"><small>ALL-TIME BEST</small><strong id="recordBest">000000</strong><span>POINTS</span></div><div class="record-row"><span>LONGEST DISTANCE</span><b id="recordDistance">0.0 km</b></div><div class="record-row"><span>TOTAL COINS BANKED</span><b><i class="coin-icon"></i> <span id="recordCoins">0</span></b></div><div class="achievement-title">MILESTONES</div><div class="achievement-list" id="achievementList"></div><button class="button button-quiet clear-data" id="resetData">RESET LOCAL SAVE</button></div>
+    </section>
+
+    <section class="screen hud-screen" id="gameScreen" aria-live="polite">
+      <div class="hud-top"><div class="hud-score"><small>SCORE</small><b id="liveScore">000000</b></div><div class="hud-center"><span class="run-mode" id="runMode">NORMAL RUN</span><div class="multiplier" id="multiplier">×1</div></div><div class="hud-coins"><i class="coin-icon"></i><b id="runCoins">0</b></div><button class="icon-button pause-button" id="pauseButton" aria-label="Pause game">Ⅱ</button></div>
+      <div class="distance-meter"><span id="distanceLabel">0.0 KM</span><div><i id="distanceFill"></i></div><span id="speedLabel">128 KM/H</span></div>
+      <div class="touch-controls"><button id="leftControl" aria-label="Steer left">‹</button><button id="rightControl" aria-label="Steer right">›</button></div>
+    </section>
+
+    <section class="screen overlay-screen" id="pauseScreen"><div class="dialog-card compact-card"><p class="eyebrow">TAKE A BREATH</p><h2>RUN <span>PAUSED</span></h2><p class="dialog-copy">The road will be here when you're ready.</p><button class="button button-primary full-button" id="resumeButton">BACK TO THE ROAD <span>→</span></button><button class="button button-quiet full-button" id="quitButton">END RUN</button></div></section>
+
+    <section class="screen overlay-screen" id="gameOverScreen"><div class="dialog-card gameover-card"><p class="eyebrow" id="gameOverEyebrow">THAT WAS A CLOSE ONE</p><h2>RUN <span>ENDED</span></h2><div class="final-score"><small>FINAL SCORE</small><strong id="finalScore">000000</strong><em id="newBestBadge">NEW PERSONAL BEST</em></div><div class="run-summary"><div><small>DISTANCE</small><b id="finalDistance">0.0 km</b></div><div><small>COINS</small><b><i class="coin-icon"></i> <span id="finalCoins">0</span></b></div><div><small>BEST</small><b id="finalBest">000000</b></div></div><button class="button button-primary full-button" id="restartButton">RACE AGAIN <span>→</span></button><button class="button button-quiet full-button" id="gameOverMenu">BACK TO MENU</button></div></section>
+
+    <div class="toast" id="toast" role="status"></div>
+    <footer class="footer-note"><span>NEON RUSH</span><span>BUILT FOR THE AFTER HOURS</span><span>© 2025</span></footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
